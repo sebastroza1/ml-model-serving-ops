@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-model-serving-ops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-model-serving-ops
+  template:
+    metadata:
+      labels:
+        app: ml-model-serving-ops
+    spec:
+      containers:
+        - name: api
+          image: ml-model-serving-ops:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

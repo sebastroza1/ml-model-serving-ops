@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ml-model-serving-ops"
+version = "0.1.0"
+description = "Versioned FastAPI model serving with Prometheus metrics and deployment assets"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.162.0",
+  "joblib==1.6.0",
+  "numpy==2.5.4",
+  "prometheus-client==0.23.1",
+  "scikit-learn==1.9.1",
+  "uvicorn==0.54.0",
+]
+
+[project.optional-dependencies]
+dev = ["httpx==0.28.1", "pytest==8.4.2", "ruff==0.17.3"]
+
+[project.scripts]
+train-serving-model = "ml_model_serving_ops.train:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
